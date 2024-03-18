@@ -14,8 +14,18 @@ describe('AppComponent', () => {
     todoServiceStub = {
       getTodos: () => {
         return <Observable<Todo[]>>of([
-          { userId: 1, id: 1, body: 'Hello World', title: 'testing Angular' },
-          { userId: 2, id: 2, body: 'Hello World2', title: 'testing Angular2' },
+          {
+            userId: 1,
+            id: 1,
+            body: 'Hello World',
+            title: 'testing Angular Todo',
+          },
+          {
+            userId: 2,
+            id: 2,
+            body: 'Hello World2',
+            title: 'testing Angular Todo2',
+          },
         ]);
       },
     };
@@ -34,5 +44,11 @@ describe('AppComponent', () => {
 
   it('should create', () => {
     expect(component).toBeDefined();
+  });
+  it('should render todos title', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('div').textContent).toContain(
+      'testing Angular Todo',
+    );
   });
 });
