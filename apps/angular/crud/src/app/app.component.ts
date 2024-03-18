@@ -1,22 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ItemComponent } from './item.component';
 import { Todo } from './services/todo/todo';
 import { TodoService } from './services/todo/todo.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatProgressSpinnerModule, ItemComponent],
   selector: 'app-root',
   template: `
     <mat-progress-spinner
       mode="indeterminate"
       *ngIf="hasToShowSpinner"></mat-progress-spinner>
-    <div *ngFor="let todo of todos">
-      {{ todo.title }}
-      <button (click)="update(todo)">Update</button>
-      <button (click)="delete(todo)">Delete</button>
-    </div>
+    <app-item
+      *ngFor="let todo of todos"
+      [todo]="todo"
+      (newUpdateItemEvent)="update($event)"
+      (newDeleteItemEvent)="delete($event)"></app-item>
   `,
   styles: [],
 })
