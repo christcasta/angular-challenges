@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Todo } from './services/todo/todo';
 import { TodoService } from './services/todo/todo.service';
@@ -20,7 +20,7 @@ import { TodoService } from './services/todo/todo.service';
   `,
   styles: [],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit {
   todos!: Todo[];
   hasToShowSpinner: boolean = true;
 
@@ -35,8 +35,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       error: (err) => alert(err),
     });
   }
-
-  ngAfterViewInit(): void {}
 
   update(todo: Todo) {
     this.todoService.updateTodo(todo).subscribe({
