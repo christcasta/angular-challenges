@@ -1,40 +1,34 @@
+import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    OnInit,
+    TemplateRef,
 } from '@angular/core';
-import { StudentStore } from '../../data-access/student.store';
-import { TeacherStore } from '../../data-access/teacher.store';
-import { CardType } from '../../model/card.model';
+import { Store } from '../../data-access/store';
 
 @Component({
-  selector: 'app-list-item',
-  template: `
-    <div class="border-grey-300 flex justify-between border px-2 py-1">
-      {{ name() }}
-      <button (click)="delete(id())">
-        <img class="h-5" src="assets/svg/trash.svg" />
-      </button>
-    </div>
-  `,
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-list-item',
+    template: `
+        <div class="border-grey-300 flex justify-between border px-2 py-1">
+            <ng-container
+                [ngTemplateOutlet]="temp()"
+                [ngTemplateOutletContext]="{ item: item() }"></ng-container>
+        </div>
+    `,
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [CommonModule],
 })
-export class ListItemComponent {
-  private teacherStore = inject(TeacherStore);
-  private studentStore = inject(StudentStore);
-
-  readonly id = input.required<number>();
-  readonly name = input.required<string>();
-  readonly type = input.required<CardType>();
-
-  delete(id: number) {
-    const type = this.type();
-    if (type === CardType.TEACHER) {
-      this.teacherStore.deleteOne(id);
-    } else if (type === CardType.STUDENT) {
-      this.studentStore.deleteOne(id);
+export class ListItemComponent<T> implements OnInit {
+    readonly store = input.required<Store<T>>();
+    readonly temp = input.required<TemplateRef<unknown>>();
+    readonly item = input.required<unknown>({});
+    delete(id: number) {
+        this.store().deleteOne(id);
     }
-  }
+    ngOnInit(): void {
+        console.log(this.item());
+    }
 }

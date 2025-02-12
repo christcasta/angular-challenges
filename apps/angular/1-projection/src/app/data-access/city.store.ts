@@ -1,21 +1,22 @@
 import { Injectable, signal } from '@angular/core';
 import { City } from '../model/city.model';
+import { Store } from './store';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class CityStore {
-  private cities = signal<City[]>([]);
+export class CityStore implements Store<City> {
+    public all = signal<City[]>([]);
 
-  addAll(cities: City[]) {
-    this.cities.set(cities);
-  }
+    addAll(cities: City[]) {
+        this.all.set(cities);
+    }
 
-  addOne(student: City) {
-    this.cities.set([...this.cities(), student]);
-  }
+    addOne(student: City) {
+        this.all.set([...this.all(), student]);
+    }
 
-  deleteOne(id: number) {
-    this.cities.set(this.cities().filter((s) => s.id !== id));
-  }
+    deleteOne(id: number) {
+        this.all.set(this.all().filter((s) => s.id !== id));
+    }
 }
