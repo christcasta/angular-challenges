@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { Person } from './person.model';
@@ -31,6 +31,6 @@ import { Person } from './person.model';
 })
 export class PersonListComponent {
     persons = input.required<Person[]>();
-    @Output() delete = new EventEmitter<string>();
-    @Output() update = new EventEmitter<string>();
+    delete = output<string>();
+    update = output<string>();
 }
